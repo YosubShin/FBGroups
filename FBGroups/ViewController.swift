@@ -8,11 +8,19 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, FBLoginViewDelegate {
                             
+    @IBOutlet var fbLoginView: FBLoginView
+    @IBOutlet var loginLabel: UILabel
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        fbLoginView.readPermissions = ["public_profile", "email", "user_friends", "user_groups"]
+        fbLoginView.delegate = self
+        loginLabel.text = ""
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +28,9 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    func loginViewFetchedUserInfo(loginView : FBLoginView, user : FBGraphUser) {
+        loginLabel.text = "Hello, \(user.name)"
+    }
+    
 }
 
