@@ -9,6 +9,8 @@
 import UIKit
 
 class GroupTableViewController: UITableViewController {
+    let kCellIdentifier = "GroupFeedCell"
+    
     var groupName : String!
     var groupId : String!
     var feeds: Array<GroupFeed> = []
@@ -35,7 +37,39 @@ class GroupTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.title = groupName
         
+        tableView.allowsSelection = false
         
+        tableView.registerClass(GroupFeedTableViewCell.self, forCellReuseIdentifier: kCellIdentifier) // uncomment this line to load table view cells programmatically
+        
+        // Self-sizing table view cells in iOS 8 require that the rowHeight property of the table view be set to the constant UITableViewAutomaticDimension
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // Self-sizing table view cells in iOS 8 are enabled when the estimatedRowHeight property of the table view is set to a non-zero value.
+        // Setting the estimated row height prevents the table view from calling tableView:heightForRowAtIndexPath: for every row in the table on first load;
+        // it will only be called as cells are about to scroll onscreen. This is a major performance optimization.
+        tableView.estimatedRowHeight = 44.0 // set this to whatever your "average" cell height is; it doesn't need to be very accurate
+        
+        
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "contentSizeCategoryChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool)
+    {
+        super.viewDidDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIContentSizeCategoryDidChangeNotification, object: nil)
+    }
+    
+    // This function will be called when the Dynamic Type user setting changes (from the system Settings app)
+    func contentSizeCategoryChanged(notification: NSNotification)
+    {
+        tableView.reloadData()
     }
     
     func fetchFacebookGroup() {
@@ -79,16 +113,19 @@ class GroupTableViewController: UITableViewController {
 
 
     override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
-        let cell = tableView!.dequeueReusableCellWithIdentifier("GroupPostCell") as UITableViewCell
+        let cell = tableView!.dequeueReusableCellWithIdentifier(kCellIdentifier) as GroupFeedTableViewCell
+        cell.updateFonts()
         
         let feed = self.feeds[indexPath!.row]
         
-        cell.textLabel!.text = feed.name
+        cell.titleLabel.text = feed.name
         if let message = feed.message {
-            cell.detailTextLabel.text = message
+            cell.bodyLabel.text = message
         }
 
-        // Configure the cell...
+        // Make sure the constraints have been added to this cell, since it may have just been created from scratch
+        cell.setNeedsUpdateConstraints()
+        cell.updateConstraintsIfNeeded()
 
         return cell
     }
