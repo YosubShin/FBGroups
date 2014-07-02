@@ -4,7 +4,7 @@ FBgroups
 Simple Facebook Group Viewer
 ------------------
 
-Sample app made with iOS that utilizes Facebook Graph API to fetch user's group data and shows it on the UITableViewController.
+Sample app made with Swift on iOS8 that utilizes Facebook Graph API to fetch user's group data and shows it on the UITableViewController.
 
 It also utilizes [PureLayout](https://github.com/smileyborg/PureLayout), and [Facebook SDK](https://developers.facebook.com/docs/ios) libraries.
 
