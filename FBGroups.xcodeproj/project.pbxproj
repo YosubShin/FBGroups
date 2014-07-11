@@ -16,8 +16,12 @@
 		650718FB195F657A002B2EC0 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650718FA195F657A002B2EC0 /* GroupsTableViewController.swift */; };
 		65729F3819633EF4002D9D52 /* GroupFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65729F3719633EF4002D9D52 /* GroupFeedTableViewCell.swift */; };
 		65729F3A1963408A002D9D52 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65729F391963408A002D9D52 /* UIKit.framework */; };
+		65B499521964CECD00600028 /* GroupFeedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B499511964CECD00600028 /* GroupFeedComment.swift */; };
 		65B52AD2195FC010003E6D8B /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B52AD1195FC010003E6D8B /* GroupTableViewController.swift */; };
 		65B52AD4195FC4C4003E6D8B /* GroupFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B52AD3195FC4C4003E6D8B /* GroupFeed.swift */; };
+		65FA0C17196E3A42008E1C88 /* shuttershare.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65FA0C15196E3A42008E1C88 /* shuttershare.xcdatamodeld */; };
+		65FA0C1C196E3E00008E1C88 /* GroupFeed+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FA0C1B196E3E00008E1C88 /* GroupFeed+Fetch.swift */; };
+		65FA0C1E196E4848008E1C88 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FA0C1D196E4848008E1C88 /* CoreDataTableViewController.swift */; };
 		BB83C135B091494C958B3AD9 /* libPods-FBGroups.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997381EEF21D4B53A017416B /* libPods-FBGroups.a */; };
 /* End PBXBuildFile section */
 
@@ -46,8 +50,12 @@
 		650718FA195F657A002B2EC0 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		65729F3719633EF4002D9D52 /* GroupFeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeedTableViewCell.swift; sourceTree = "<group>"; };
 		65729F391963408A002D9D52 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		65B499511964CECD00600028 /* GroupFeedComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeedComment.swift; sourceTree = "<group>"; };
 		65B52AD1195FC010003E6D8B /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
 		65B52AD3195FC4C4003E6D8B /* GroupFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeed.swift; sourceTree = "<group>"; };
+		65FA0C16196E3A42008E1C88 /* shuttershare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = shuttershare.xcdatamodel; sourceTree = "<group>"; };
+		65FA0C1B196E3E00008E1C88 /* GroupFeed+Fetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupFeed+Fetch.swift"; sourceTree = "<group>"; };
+		65FA0C1D196E4848008E1C88 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		997381EEF21D4B53A017416B /* libPods-FBGroups.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FBGroups.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A75C5F6916744E03B23C2B87 /* Pods-FBGroups.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FBGroups.xcconfig"; path = "Pods/Pods-FBGroups.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,7 +109,11 @@
 				650718FA195F657A002B2EC0 /* GroupsTableViewController.swift */,
 				650718D9195F2C78002B2EC0 /* Main.storyboard */,
 				65B52AD1195FC010003E6D8B /* GroupTableViewController.swift */,
+				65FA0C15196E3A42008E1C88 /* shuttershare.xcdatamodeld */,
 				65B52AD3195FC4C4003E6D8B /* GroupFeed.swift */,
+				65FA0C1D196E4848008E1C88 /* CoreDataTableViewController.swift */,
+				65FA0C1B196E3E00008E1C88 /* GroupFeed+Fetch.swift */,
+				65B499511964CECD00600028 /* GroupFeedComment.swift */,
 				65729F3719633EF4002D9D52 /* GroupFeedTableViewCell.swift */,
 				650718DC195F2C78002B2EC0 /* Images.xcassets */,
 				650718D3195F2C78002B2EC0 /* Supporting Files */,
@@ -282,8 +294,12 @@
 				650718D8195F2C78002B2EC0 /* ViewController.swift in Sources */,
 				65B52AD2195FC010003E6D8B /* GroupTableViewController.swift in Sources */,
 				650718D6195F2C78002B2EC0 /* AppDelegate.swift in Sources */,
+				65FA0C17196E3A42008E1C88 /* shuttershare.xcdatamodeld in Sources */,
 				65729F3819633EF4002D9D52 /* GroupFeedTableViewCell.swift in Sources */,
+				65FA0C1C196E3E00008E1C88 /* GroupFeed+Fetch.swift in Sources */,
 				650718FB195F657A002B2EC0 /* GroupsTableViewController.swift in Sources */,
+				65B499521964CECD00600028 /* GroupFeedComment.swift in Sources */,
+				65FA0C1E196E4848008E1C88 /* CoreDataTableViewController.swift in Sources */,
 				65B52AD4195FC4C4003E6D8B /* GroupFeed.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,6 +517,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		65FA0C15196E3A42008E1C88 /* shuttershare.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				65FA0C16196E3A42008E1C88 /* shuttershare.xcdatamodel */,
+			);
+			currentVersion = 65FA0C16196E3A42008E1C88 /* shuttershare.xcdatamodel */;
+			path = shuttershare.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 650718C8195F2C78002B2EC0 /* Project object */;
 }

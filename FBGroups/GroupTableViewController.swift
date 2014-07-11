@@ -7,22 +7,28 @@
 //
 
 import UIKit
+import CoreData
 
-class GroupTableViewController: UITableViewController {
+class GroupTableViewController: CoreDataTableViewController {
     let kCellIdentifier = "GroupFeedCell"
     
     var groupName : String!
-    var groupId : String!
-    var feeds: Array<GroupFeed> = []
-    
-    init(style: UITableViewStyle) {
-        super.init(style: style)
-        // Custom initialization
+    var groupId : String! {
+    didSet {
+        NSLog("Set groupId with \(groupId)")
+        self.setupFetchedResultsController()
     }
+    }
+//    var feeds: Array<GroupFeed> = []
     
     init(coder aDecoder: NSCoder!)
     {
         super.init(coder: aDecoder)
+    }
+    
+    init(style: UITableViewStyle) {
+        super.init(style: style)
+        // Custom initialization
     }
 
 
@@ -78,7 +84,12 @@ class GroupTableViewController: UITableViewController {
                 NSLog("error = \(error)")
             
                 var jsonFeeds = result as FBGraphObject
-                self.feeds = self.buildFeeds((jsonFeeds["feed"] as FBGraphObject)["data"] as NSMutableArray)
+                
+                let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                let context = appDelegate.managedObjectContext
+                GroupFeed.loadGroupFeeds((jsonFeeds["feed"] as FBGraphObject)["data"] as NSMutableArray, context: context)
+                context.save(nil)
+//                self.feeds = self.buildFeeds((jsonFeeds["feed"] as FBGraphObject)["data"] as NSMutableArray)
                 self.tableView.reloadData()
             }
             } as FBRequestHandler)
@@ -95,8 +106,8 @@ class GroupTableViewController: UITableViewController {
         for rawFeed : AnyObject in data {
             if rawFeed is FBGraphObject {
                 if let jsonFeed = rawFeed as? FBGraphObject {
-                    var feed = GroupFeed(jsonFeed: jsonFeed)
-                    result += feed
+//                    var feed = GroupFeed(jsonFeed: jsonFeed)
+//                    result += feed
                 }
             }
         }
@@ -105,28 +116,29 @@ class GroupTableViewController: UITableViewController {
 
     // #pragma mark - Table view data source
 
-    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return feeds.count
-    }
+//    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
+//        // #warning Incomplete method implementation.
+//        // Return the number of rows in the section.
+//        return feeds.count
+//    }
 
 
     override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
         let cell = tableView!.dequeueReusableCellWithIdentifier(kCellIdentifier) as GroupFeedTableViewCell
         cell.updateFonts()
         
-        let feed = self.feeds[indexPath!.row]
-        
-        cell.titleLabel.text = feed.name
-        if let message = feed.message {
-            cell.bodyLabel.text = message
+//        let feed = self.feeds[indexPath!.row]
+        if let frc = self.fetchedResultsController {
+            let feed = frc.objectAtIndexPath(indexPath) as GroupFeed
+            cell.titleLabel.text = feed.name
+            if let message = feed.message {
+                cell.bodyLabel.text = message
+            }
+            
+            // Make sure the constraints have been added to this cell, since it may have just been created from scratch
+            cell.setNeedsUpdateConstraints()
+            cell.updateConstraintsIfNeeded()
         }
-
-        // Make sure the constraints have been added to this cell, since it may have just been created from scratch
-        cell.setNeedsUpdateConstraints()
-        cell.updateConstraintsIfNeeded()
-
         return cell
     }
 
@@ -175,5 +187,15 @@ class GroupTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func setupFetchedResultsController() {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let context = appDelegate.managedObjectContext
+        
+        let request = NSFetchRequest(entityName: "GroupFeed")
+//        request.predicate = NSPredicate(format: "groupId = %@", self.groupId)
+        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true, selector: "localizedStandardCompare:")]
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    }
 
 }
