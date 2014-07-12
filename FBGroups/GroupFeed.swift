@@ -9,13 +9,13 @@
 import UIKit
 import CoreData
 
-@objc(GroupFeed)
+//@objc(GroupFeed) // instead of doing this, change class name in .xcdatamodeld file to MyProjectName.MyClassName
 class GroupFeed: NSManagedObject {
     @NSManaged var id : String
     @NSManaged var name : String
     @NSManaged var message : String?
     @NSManaged var updatedTime : String
+//    @NSManaged var group : Group
 //    var comments : Array<GroupFeedComment> = []
 //    var likes : Int?
- 
 }

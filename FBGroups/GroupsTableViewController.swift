@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
-class GroupsTableViewController: UITableViewController {
-    var groups : NSMutableArray!
+class GroupsTableViewController: CoreDataTableViewController {
+//    var groups : NSMutableArray!
 
     init(style: UITableViewStyle) {
         super.init(style: style)
@@ -25,6 +26,8 @@ class GroupsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupFetchedResultsController()
+        
         fetchFacebookGroups()
         
         // Uncomment the following line to preserve selection between presentations
@@ -39,8 +42,13 @@ class GroupsTableViewController: UITableViewController {
             NSLog("result = \(result)")
             NSLog("error = \(error)")
 
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let context = appDelegate.managedObjectContext
             var jsonGroups = result as FBGraphObject
-            self.groups = jsonGroups["data"] as NSMutableArray
+            Group.loadGroups(jsonGroups["data"] as NSMutableArray, context: context)
+            appDelegate.saveContext()
+            
+//            self.groups = jsonGroups["data"] as NSMutableArray
             self.tableView.reloadData()
             
             } as FBRequestHandler)
@@ -54,19 +62,13 @@ class GroupsTableViewController: UITableViewController {
 
     // #pragma mark - Table view data source
 
-    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        if groups? {
-            return groups.count
-        } else {
-            return 0
-        }
-    }
-
     override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
         let cell = tableView!.dequeueReusableCellWithIdentifier("GroupNameCell") as UITableViewCell
-        cell.textLabel.text = self.groups[indexPath!.row].objectForKey("name") as String
+        
+        if let frc = self.fetchedResultsController {
+            let group = frc.objectAtIndexPath(indexPath) as Group
+            cell.textLabel.text = group.name
+        }
 
         return cell
     }
@@ -112,9 +114,21 @@ class GroupsTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject?) {
         var destViewController = segue.destinationViewController as GroupTableViewController
-        let group = self.groups[self.tableView.indexPathForSelectedRow().row] as NSMutableDictionary
-        destViewController.groupId = group["id"] as String
-        destViewController.groupName = group["name"] as String
+        if let frc = self.fetchedResultsController {
+            let group = frc.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as Group
+            destViewController.groupId = group.id
+            destViewController.groupName = group.name
+        }
+    }
+    
+    // #pragma mark - FetchedResultsController
+    func setupFetchedResultsController() {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let context = appDelegate.managedObjectContext
+        
+        let request = NSFetchRequest(entityName: "Group")
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true, selector: "localizedStandardCompare:")]
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }
 
 }

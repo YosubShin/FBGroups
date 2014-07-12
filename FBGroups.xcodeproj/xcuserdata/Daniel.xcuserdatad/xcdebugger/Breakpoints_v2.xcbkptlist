@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FBGroups/GroupsTableViewController.swift"
-            timestampString = "425704743.089484"
+            timestampString = "426819638.232566"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "fetchFacebookGroups()"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,13 +26,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FBGroups/GroupTableViewController.swift"
-            timestampString = "426661608.764584"
+            timestampString = "426817594.055882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "fetchFacebookGroup()"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FBGroups.GroupTableViewController.(fetchFacebookGroup (FBGroups.GroupTableViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "FBGroups"
+                  urlString = "file:///Users/Daniel/Dropbox/repos/ios/FBGroups/FBGroups/GroupTableViewController.swift"
+                  timestampString = "426817206.119085"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "1834">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FBGroups.GroupTableViewController.(fetchFacebookGroup (FBGroups.GroupTableViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "FBGroups"
+                  urlString = "file:///Users/Daniel/Dropbox/repos/ios/FBGroups/FBGroups/GroupTableViewController.swift"
+                  timestampString = "426817206.119287"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "2186">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

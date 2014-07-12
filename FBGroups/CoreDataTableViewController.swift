@@ -84,6 +84,8 @@ class CoreDataTableViewController: UITableViewController, NSFetchedResultsContro
         return 0
     }
     
-// #pragma mark - NSFetchedResultsControllerDelegate
-
+    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+        // A delegate must implement at least one of the change tracking delegate methods in order for change tracking to be enabled.
+        // https://developer.apple.com/library/ios/documentation/CoreData/Reference/NSFetchedResultsController_Class/Reference/Reference.html
+    }
 }

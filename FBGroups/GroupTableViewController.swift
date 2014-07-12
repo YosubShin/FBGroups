@@ -19,7 +19,6 @@ class GroupTableViewController: CoreDataTableViewController {
         self.setupFetchedResultsController()
     }
     }
-//    var feeds: Array<GroupFeed> = []
     
     init(coder aDecoder: NSCoder!)
     {
@@ -34,15 +33,8 @@ class GroupTableViewController: CoreDataTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        fetchFacebookGroup()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        addRefreshControl()
         self.title = groupName
-        
         tableView.allowsSelection = false
         
         tableView.registerClass(GroupFeedTableViewCell.self, forCellReuseIdentifier: kCellIdentifier) // uncomment this line to load table view cells programmatically
@@ -55,7 +47,7 @@ class GroupTableViewController: CoreDataTableViewController {
         // it will only be called as cells are about to scroll onscreen. This is a major performance optimization.
         tableView.estimatedRowHeight = 44.0 // set this to whatever your "average" cell height is; it doesn't need to be very accurate
         
-        
+        fetchFacebookGroup()
     }
     
     override func viewDidAppear(animated: Bool)
@@ -79,8 +71,11 @@ class GroupTableViewController: CoreDataTableViewController {
     }
     
     func fetchFacebookGroup() {
-        FBRequestConnection.startWithGraphPath("\(groupId)/?fields=feed.limit=(1)", completionHandler: {(connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
-            if result? {
+        FBRequestConnection.startWithGraphPath("\(groupId)/?fields=feed.limit=(1)", completionHandler: {(connection: FBRequestConnection!, result: AnyObject?, error: NSError?) -> Void in
+            if error {
+                NSLog("Error \(error)")
+            }
+            if let result : AnyObject = result {
                 NSLog("error = \(error)")
             
                 var jsonFeeds = result as FBGraphObject
@@ -88,12 +83,11 @@ class GroupTableViewController: CoreDataTableViewController {
                 let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
                 let context = appDelegate.managedObjectContext
                 GroupFeed.loadGroupFeeds((jsonFeeds["feed"] as FBGraphObject)["data"] as NSMutableArray, context: context)
-                context.save(nil)
-//                self.feeds = self.buildFeeds((jsonFeeds["feed"] as FBGraphObject)["data"] as NSMutableArray)
+                appDelegate.saveContext()
                 self.tableView.reloadData()
             }
             } as FBRequestHandler)
-        
+        NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("stopRefresh"), userInfo: nil, repeats: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -101,33 +95,12 @@ class GroupTableViewController: CoreDataTableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func buildFeeds(data: NSMutableArray) -> Array<GroupFeed> {
-        var result : Array<GroupFeed> = []
-        for rawFeed : AnyObject in data {
-            if rawFeed is FBGraphObject {
-                if let jsonFeed = rawFeed as? FBGraphObject {
-//                    var feed = GroupFeed(jsonFeed: jsonFeed)
-//                    result += feed
-                }
-            }
-        }
-        return result
-    }
-
     // #pragma mark - Table view data source
-
-//    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete method implementation.
-//        // Return the number of rows in the section.
-//        return feeds.count
-//    }
-
 
     override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
         let cell = tableView!.dequeueReusableCellWithIdentifier(kCellIdentifier) as GroupFeedTableViewCell
         cell.updateFonts()
         
-//        let feed = self.feeds[indexPath!.row]
         if let frc = self.fetchedResultsController {
             let feed = frc.objectAtIndexPath(indexPath) as GroupFeed
             cell.titleLabel.text = feed.name
@@ -141,42 +114,6 @@ class GroupTableViewController: CoreDataTableViewController {
         }
         return cell
     }
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView?, canEditRowAtIndexPath indexPath: NSIndexPath?) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView?, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath?) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView?, moveRowAtIndexPath fromIndexPath: NSIndexPath?, toIndexPath: NSIndexPath?) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView?, canMoveRowAtIndexPath indexPath: NSIndexPath?) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // #pragma mark - Navigation
@@ -193,9 +130,21 @@ class GroupTableViewController: CoreDataTableViewController {
         let context = appDelegate.managedObjectContext
         
         let request = NSFetchRequest(entityName: "GroupFeed")
-//        request.predicate = NSPredicate(format: "groupId = %@", self.groupId)
+//        request.predicate = NSPredicate(format: "group.id = %@", self.groupId)
         request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true, selector: "localizedStandardCompare:")]
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    }
+    
+    // #pragma mark - Refresh Control
+    
+    func addRefreshControl() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: "fetchFacebookGroup", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl = refresh
+    }
+    
+    func stopRefresh() {
+        self.refreshControl.endRefreshing()
     }
 
 }
