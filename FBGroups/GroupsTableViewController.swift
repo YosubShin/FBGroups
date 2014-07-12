@@ -10,8 +10,13 @@ import UIKit
 import CoreData
 
 class GroupsTableViewController: CoreDataTableViewController {
-//    var groups : NSMutableArray!
-
+    var context : NSManagedObjectContext {
+    get {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        return appDelegate.managedObjectContext
+    }
+    }
+    
     init(style: UITableViewStyle) {
         super.init(style: style)
         // Custom initialization
@@ -25,16 +30,8 @@ class GroupsTableViewController: CoreDataTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupFetchedResultsController()
-        
         fetchFacebookGroups()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     func fetchFacebookGroups() {
@@ -42,17 +39,12 @@ class GroupsTableViewController: CoreDataTableViewController {
             NSLog("result = \(result)")
             NSLog("error = \(error)")
 
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            let context = appDelegate.managedObjectContext
             var jsonGroups = result as FBGraphObject
-            Group.loadGroups(jsonGroups["data"] as NSMutableArray, context: context)
-            appDelegate.saveContext()
+            Group.loadGroups(jsonGroups["data"] as NSMutableArray, context: self.context)
+            self.context.save(nil)
             
-//            self.groups = jsonGroups["data"] as NSMutableArray
             self.tableView.reloadData()
-            
             } as FBRequestHandler)
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,42 +65,6 @@ class GroupsTableViewController: CoreDataTableViewController {
         return cell
     }
 
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView?, canEditRowAtIndexPath indexPath: NSIndexPath?) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView?, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath?) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView?, moveRowAtIndexPath fromIndexPath: NSIndexPath?, toIndexPath: NSIndexPath?) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView?, canMoveRowAtIndexPath indexPath: NSIndexPath?) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -116,16 +72,13 @@ class GroupsTableViewController: CoreDataTableViewController {
         var destViewController = segue.destinationViewController as GroupTableViewController
         if let frc = self.fetchedResultsController {
             let group = frc.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as Group
-            destViewController.groupId = group.id
-            destViewController.groupName = group.name
+            destViewController.context = self.context
+            destViewController.group = group
         }
     }
     
     // #pragma mark - FetchedResultsController
     func setupFetchedResultsController() {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let context = appDelegate.managedObjectContext
-        
         let request = NSFetchRequest(entityName: "Group")
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true, selector: "localizedStandardCompare:")]
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)

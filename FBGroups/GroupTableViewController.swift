@@ -12,10 +12,10 @@ import CoreData
 class GroupTableViewController: CoreDataTableViewController {
     let kCellIdentifier = "GroupFeedCell"
     
-    var groupName : String!
-    var groupId : String! {
+    var context : NSManagedObjectContext!
+    var group : Group! {
     didSet {
-        NSLog("Set groupId with \(groupId)")
+        NSLog("Set group with \(group)")
         self.setupFetchedResultsController()
     }
     }
@@ -34,7 +34,9 @@ class GroupTableViewController: CoreDataTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addRefreshControl()
-        self.title = groupName
+        
+        self.title = group.name
+
         tableView.allowsSelection = false
         
         tableView.registerClass(GroupFeedTableViewCell.self, forCellReuseIdentifier: kCellIdentifier) // uncomment this line to load table view cells programmatically
@@ -71,20 +73,18 @@ class GroupTableViewController: CoreDataTableViewController {
     }
     
     func fetchFacebookGroup() {
-        FBRequestConnection.startWithGraphPath("\(groupId)/?fields=feed.limit=(1)", completionHandler: {(connection: FBRequestConnection!, result: AnyObject?, error: NSError?) -> Void in
-            if error {
+        FBRequestConnection.startWithGraphPath("\(group.id)/?fields=feed", completionHandler: {(connection: FBRequestConnection!, result: AnyObject?, error: NSError?) -> Void in
+            if error? {
                 NSLog("Error \(error)")
             }
             if let result : AnyObject = result {
-                NSLog("error = \(error)")
-            
-                var jsonFeeds = result as FBGraphObject
+                var rawFeeds = result as FBGraphObject
                 
-                let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-                let context = appDelegate.managedObjectContext
-                GroupFeed.loadGroupFeeds((jsonFeeds["feed"] as FBGraphObject)["data"] as NSMutableArray, context: context)
-                appDelegate.saveContext()
-                self.tableView.reloadData()
+                if let jsonFeeds = rawFeeds.objectForKey("feed") as? FBGraphObject {
+                    GroupFeed.loadGroupFeeds(jsonFeeds["data"] as NSMutableArray, context: self.context)
+                    self.context.save(nil)
+                    self.tableView.reloadData()
+                }
             }
             } as FBRequestHandler)
         NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("stopRefresh"), userInfo: nil, repeats: false)
@@ -126,11 +126,8 @@ class GroupTableViewController: CoreDataTableViewController {
     */
     
     func setupFetchedResultsController() {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let context = appDelegate.managedObjectContext
-        
         let request = NSFetchRequest(entityName: "GroupFeed")
-//        request.predicate = NSPredicate(format: "group.id = %@", self.groupId)
+        request.predicate = NSPredicate(format: "group = %@", self.group)
         request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true, selector: "localizedStandardCompare:")]
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }

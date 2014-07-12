@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 
-//@objc(Group)
 class Group: NSManagedObject {
     @NSManaged var id : String
     @NSManaged var name : String

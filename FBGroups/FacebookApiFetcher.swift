@@ -33,9 +33,9 @@ extension GroupFeed {
             }
             feed.updatedTime = jsonFeed["updated_time"] as String
             
-//            let groupId = (((jsonFeed["to"] as FBGraphObject)["data"] as NSMutableArray)[0] as FBGraphObject)["id"] as String
-//            let groupName = (((jsonFeed["to"] as FBGraphObject)["data"] as NSMutableArray)[0] as FBGraphObject)["name"] as String
-//            feed.group = Group.loadGroupWithId(groupId, andName: groupName, inContext: context)
+            let groupId = (((jsonFeed["to"] as FBGraphObject)["data"] as NSMutableArray)[0] as FBGraphObject)["id"] as String
+            let groupName = (((jsonFeed["to"] as FBGraphObject)["data"] as NSMutableArray)[0] as FBGraphObject)["name"] as String
+            feed.group = Group.loadGroupWithId(groupId, andName: groupName, inContext: context)
         }
         NSLog("Parsed the GroupFeed object \(feed)")
 //        context.save(nil)
