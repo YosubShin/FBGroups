@@ -71,14 +71,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     @lazy var managedObjectContext: NSManagedObjectContext = {
-        let modelURL = NSBundle.mainBundle().URLForResource("shuttershare", withExtension: "momd")
+        let modelURL = NSBundle.mainBundle().URLForResource("fbgroups", withExtension: "momd")
         let mom = NSManagedObjectModel(contentsOfURL: modelURL)
         ZAssert(mom != nil, "Error initializing mom from: \(modelURL)")
         
         let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
         
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        let storeURL = (urls[urls.endIndex-1]).URLByAppendingPathComponent("shuttershare.sqlite")
+        let storeURL = (urls[urls.endIndex-1]).URLByAppendingPathComponent("fbgroups.sqlite")
         
         var error: NSError? = nil
         

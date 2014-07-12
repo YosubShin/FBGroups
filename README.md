@@ -1,4 +1,4 @@
-FBgroups
+FBGroups
 ========
 
 Simple Facebook Group Viewer
