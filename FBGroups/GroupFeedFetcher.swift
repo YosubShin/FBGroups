@@ -38,7 +38,6 @@ extension GroupFeed {
             feed.group = Group.loadGroupWithId(groupId, andName: groupName, inContext: context)
         }
         NSLog("Parsed the GroupFeed object \(feed)")
-//        context.save(nil)
         return feed
     }
     
@@ -52,38 +51,22 @@ extension GroupFeed {
             }
         }
     }
-}
-
-
-extension Group {
-    class func loadGroupWithId(id: String, andName name: String, inContext context: NSManagedObjectContext) -> Group {
-        NSLog("Loading group with id = \(id), and name = \(name)")
-        var request = NSFetchRequest(entityName: "Group")
-        request.predicate = NSPredicate(format: "id = %@", id)
-        var error : NSError? = nil
-        var matches = context.executeFetchRequest(request, error: &error)
-        
-        var group : Group? = nil
-        if !matches || error || matches.count > 1 {
-            NSLog("Error while fetching Group \(error)")
-        } else if matches.count > 0 {
-            group = (matches[0] as Group)
-        } else {
-            group = (NSEntityDescription.insertNewObjectForEntityForName("Group", inManagedObjectContext: context) as Group)
-            group!.id = id
-            group!.name = name
-//            group!.feeds = []
-        }
-//        context.save(nil)
-        return group!
-    }
     
-    class func loadGroups(data: NSMutableArray, context: NSManagedObjectContext!) {
-        for rawGroup : AnyObject in data {
-            NSLog("Parsing raw group \(rawGroup)")
-            if let jsonGroup = rawGroup as? FBGraphObject {
-                Group.loadGroupWithId(jsonGroup["id"] as String, andName: jsonGroup["name"] as String, inContext: context)
+    class func fetchGroupFeedsWithCallback(group: Group, context: NSManagedObjectContext, callback: () -> Void) {
+        FBRequestConnection.startWithGraphPath("\(group.id)/?fields=feed", completionHandler: {(connection: FBRequestConnection!, result: AnyObject?, error: NSError?) -> Void in
+            if error? {
+                NSLog("Error \(error)")
             }
-        }
+            if let result : AnyObject = result {
+                var rawFeeds = result as FBGraphObject
+                
+                if let jsonFeeds = rawFeeds.objectForKey("feed") as? FBGraphObject {
+                    GroupFeed.loadGroupFeeds(jsonFeeds["data"] as NSMutableArray, context: context)
+                    context.save(nil)
+                    callback()
+                }
+            }
+            } as FBRequestHandler)
     }
 }
+

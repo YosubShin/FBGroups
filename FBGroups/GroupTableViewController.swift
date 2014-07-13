@@ -49,7 +49,7 @@ class GroupTableViewController: CoreDataTableViewController {
         // it will only be called as cells are about to scroll onscreen. This is a major performance optimization.
         tableView.estimatedRowHeight = 44.0 // set this to whatever your "average" cell height is; it doesn't need to be very accurate
         
-        fetchFacebookGroup()
+        fetchGroupFeeds()
     }
     
     override func viewDidAppear(animated: Bool)
@@ -72,21 +72,8 @@ class GroupTableViewController: CoreDataTableViewController {
         tableView.reloadData()
     }
     
-    func fetchFacebookGroup() {
-        FBRequestConnection.startWithGraphPath("\(group.id)/?fields=feed", completionHandler: {(connection: FBRequestConnection!, result: AnyObject?, error: NSError?) -> Void in
-            if error? {
-                NSLog("Error \(error)")
-            }
-            if let result : AnyObject = result {
-                var rawFeeds = result as FBGraphObject
-                
-                if let jsonFeeds = rawFeeds.objectForKey("feed") as? FBGraphObject {
-                    GroupFeed.loadGroupFeeds(jsonFeeds["data"] as NSMutableArray, context: self.context)
-                    self.context.save(nil)
-                    self.tableView.reloadData()
-                }
-            }
-            } as FBRequestHandler)
+    func fetchGroupFeeds() {
+        GroupFeed.fetchGroupFeedsWithCallback(self.group, context: context, callback: {() -> Void in self.tableView.reloadData()})
         NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("stopRefresh"), userInfo: nil, repeats: false)
     }
 
@@ -136,7 +123,7 @@ class GroupTableViewController: CoreDataTableViewController {
     
     func addRefreshControl() {
         let refresh = UIRefreshControl()
-        refresh.addTarget(self, action: "fetchFacebookGroup", forControlEvents: UIControlEvents.ValueChanged)
+        refresh.addTarget(self, action: "fetchGroupFeeds", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refresh
     }
     

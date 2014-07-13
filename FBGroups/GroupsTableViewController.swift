@@ -31,22 +31,15 @@ class GroupsTableViewController: CoreDataTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFetchedResultsController()
-        fetchFacebookGroups()
+        fetchGroups()
+        addRefreshControl()
     }
     
-    func fetchFacebookGroups() {
-        FBRequestConnection.startWithGraphPath("/me/groups", completionHandler: {(connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
-            NSLog("result = \(result)")
-            NSLog("error = \(error)")
-
-            var jsonGroups = result as FBGraphObject
-            Group.loadGroups(jsonGroups["data"] as NSMutableArray, context: self.context)
-            self.context.save(nil)
-            
-            self.tableView.reloadData()
-            } as FBRequestHandler)
+    func fetchGroups() {
+        Group.fetchGroupsWithCallback(context, callback: {() -> Void in self.tableView.reloadData()})
+        NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("stopRefresh"), userInfo: nil, repeats: false)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -82,6 +75,18 @@ class GroupsTableViewController: CoreDataTableViewController {
         let request = NSFetchRequest(entityName: "Group")
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true, selector: "localizedStandardCompare:")]
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    }
+    
+    // #pragma mark - Refresh Control
+    
+    func addRefreshControl() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: "fetchGroups", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl = refresh
+    }
+    
+    func stopRefresh() {
+        self.refreshControl.endRefreshing()
     }
 
 }
