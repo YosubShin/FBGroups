@@ -36,17 +36,25 @@ extension GroupFeed {
             let groupId = (((jsonFeed["to"] as FBGraphObject)["data"] as NSMutableArray)[0] as FBGraphObject)["id"] as String
             let groupName = (((jsonFeed["to"] as FBGraphObject)["data"] as NSMutableArray)[0] as FBGraphObject)["name"] as String
             feed.group = Group.loadGroupWithId(groupId, andName: groupName, inContext: context)
+            
+            if let rawComments = jsonFeed["comments"] as? FBGraphObject {
+                Comment.loadComments(feed, data: rawComments["data"] as NSMutableArray, context: context)
+//                for comment in Comment.loadComments(rawComments["data"] as NSMutableArray, context: context) {
+//                    feed.comments.append(comment)
+//                }
+            }
         }
         NSLog("Parsed the GroupFeed object \(feed)")
         return feed
     }
     
-    class func loadGroupFeeds(data: NSMutableArray, context: NSManagedObjectContext!) {
-        for rawFeed : AnyObject in data {
-            NSLog("Parsing raw feed \(rawFeed)")
-            if rawFeed is FBGraphObject {
-                if let jsonFeed = rawFeed as? FBGraphObject {
-                    GroupFeed.groupFeed(jsonFeed, context: context)
+    class func loadGroupFeeds(data: NSMutableArray?, context: NSManagedObjectContext!) {
+        if let data = data {
+            for rawFeed : AnyObject in data {
+                if rawFeed is FBGraphObject {
+                    if let jsonFeed = rawFeed as? FBGraphObject {
+                        GroupFeed.groupFeed(jsonFeed, context: context)
+                    }
                 }
             }
         }
@@ -61,7 +69,7 @@ extension GroupFeed {
                 var rawFeeds = result as FBGraphObject
                 
                 if let jsonFeeds = rawFeeds.objectForKey("feed") as? FBGraphObject {
-                    GroupFeed.loadGroupFeeds(jsonFeeds["data"] as NSMutableArray, context: context)
+                    GroupFeed.loadGroupFeeds(jsonFeeds["data"] as? NSMutableArray, context: context)
                     context.save(nil)
                     callback()
                 }

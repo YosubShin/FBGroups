@@ -15,6 +15,6 @@ class GroupFeed: NSManagedObject {
     @NSManaged var message : String?
     @NSManaged var updatedTime : String
     @NSManaged var group : Group
-//    var comments : Array<GroupFeedComment> = []
-//    var likes : Int?
+    @NSManaged var likeCount : Int
+    @NSManaged var comments : Array<Comment>
 }

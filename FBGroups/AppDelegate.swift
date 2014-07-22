@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    @lazy var managedObjectContext: NSManagedObjectContext = {
+    lazy var managedObjectContext: NSManagedObjectContext = {
         let modelURL = NSBundle.mainBundle().URLForResource("fbgroups", withExtension: "momd")
         let mom = NSManagedObjectModel(contentsOfURL: modelURL)
         ZAssert(mom != nil, "Error initializing mom from: \(modelURL)")

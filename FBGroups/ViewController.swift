@@ -10,8 +10,13 @@ import UIKit
 
 class ViewController: UIViewController, FBLoginViewDelegate {
                             
-    @IBOutlet var fbLoginView: FBLoginView
-    @IBOutlet var loginLabel: UILabel
+    @IBOutlet var fbLoginView: FBLoginView!
+    @IBOutlet var loginLabel: UILabel!
+    
+    init(coder aDecoder: NSCoder!)
+    {
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
