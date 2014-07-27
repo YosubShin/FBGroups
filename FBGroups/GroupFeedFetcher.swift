@@ -39,12 +39,9 @@ extension GroupFeed {
             
             if let rawComments = jsonFeed["comments"] as? FBGraphObject {
                 Comment.loadComments(feed, data: rawComments["data"] as NSMutableArray, context: context)
-//                for comment in Comment.loadComments(rawComments["data"] as NSMutableArray, context: context) {
-//                    feed.comments.append(comment)
-//                }
             }
         }
-        NSLog("Parsed the GroupFeed object \(feed)")
+//        NSLog("Parsed the GroupFeed object \(feed)")
         return feed
     }
     

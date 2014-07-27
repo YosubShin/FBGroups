@@ -1,10 +1,1 @@
-PODS:
-  - PureLayout (1.0.1)
-
-DEPENDENCIES:
-  - PureLayout
-
-SPEC CHECKSUMS:
-  PureLayout: 972964b21dbcbc5cc36785aed16aba03176f057d
-
 COCOAPODS: 0.33.1

@@ -12,7 +12,6 @@ import CoreData
 class GroupTableViewController: CoreDataTableViewController {
     let kCellIdentifier = "GroupFeedCell"
     
-    var context : NSManagedObjectContext!
     var group : Group! {
     didSet {
         NSLog("Set group with \(group)")
@@ -36,10 +35,6 @@ class GroupTableViewController: CoreDataTableViewController {
         addRefreshControl()
         
         self.title = group.name
-
-        tableView.allowsSelection = false
-        
-        tableView.registerClass(GroupFeedTableViewCell.self, forCellReuseIdentifier: kCellIdentifier) // uncomment this line to load table view cells programmatically
         
         // Self-sizing table view cells in iOS 8 require that the rowHeight property of the table view be set to the constant UITableViewAutomaticDimension
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -73,7 +68,9 @@ class GroupTableViewController: CoreDataTableViewController {
     }
     
     func fetchGroupFeeds() {
-        GroupFeed.fetchGroupFeedsWithCallback(self.group, context: context, callback: {() -> Void in self.tableView.reloadData()})
+        GroupFeed.fetchGroupFeedsWithCallback(self.group,
+            context: self.group.managedObjectContext,
+            callback: {() -> Void in self.tableView.reloadData()})
         NSTimer.scheduledTimerWithTimeInterval(2.5, target: self, selector: Selector("stopRefresh"), userInfo: nil, repeats: false)
     }
 
@@ -85,8 +82,7 @@ class GroupTableViewController: CoreDataTableViewController {
     // #pragma mark - Table view data source
 
     override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
-        let cell = tableView!.dequeueReusableCellWithIdentifier(kCellIdentifier) as GroupFeedTableViewCell
-        cell.updateFonts()
+        let cell = tableView!.dequeueReusableCellWithIdentifier(kCellIdentifier) as GroupFeedCell
         
         if let frc = self.fetchedResultsController {
             let feed = frc.objectAtIndexPath(indexPath) as GroupFeed
@@ -96,27 +92,45 @@ class GroupTableViewController: CoreDataTableViewController {
             }
             
             // Make sure the constraints have been added to this cell, since it may have just been created from scratch
-            cell.setNeedsUpdateConstraints()
-            cell.updateConstraintsIfNeeded()
+//            cell.setNeedsUpdateConstraints()
+//            cell.updateConstraintsIfNeeded()
         }
         return cell
     }
+    var customCell : GroupFeedCell!
+    
+    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        if self.customCell == nil {
+            self.customCell = tableView!.dequeueReusableCellWithIdentifier(kCellIdentifier) as GroupFeedCell
+        }
 
-    /*
-    // #pragma mark - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        
+        // Configure the cell
+        if let frc = self.fetchedResultsController {
+            let feed = frc.objectAtIndexPath(indexPath) as GroupFeed
+            self.customCell.titleLabel.text = feed.name
+            if let message = feed.message {
+                self.customCell.bodyLabel.text = message
+            }
+            
+            // Make sure the constraints have been added to this cell, since it may have just been created from scratch
+        }
+        
+        // Layout the cell
+        self.customCell.layoutIfNeeded()
+        
+        // Get the height
+        var height : CGFloat = self.customCell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
+        
+        // Padding of 1 point(cell separator)
+        return height + 1
     }
-    */
     
     func setupFetchedResultsController() {
         let request = NSFetchRequest(entityName: "GroupFeed")
         request.predicate = NSPredicate(format: "group = %@", self.group)
         request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true, selector: "localizedStandardCompare:")]
-        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.group.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
     }
     
     // #pragma mark - Refresh Control
@@ -130,5 +144,30 @@ class GroupTableViewController: CoreDataTableViewController {
     func stopRefresh() {
         self.refreshControl.endRefreshing()
     }
+    
+    // #pragma mark - Navigation
+    
+//    override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+//        NSLog("row \(indexPath.row) was selected")
+//        
+//        var newVC = GroupFeedTableViewController(style: UITableViewStyle.Plain)
+//        self.navigationController.pushViewController(newVC, animated: true)
+//        if let frc = self.fetchedResultsController {
+//            let feed = frc.objectAtIndexPath(indexPath) as GroupFeed
+//            newVC.groupFeed = feed
+//            newVC.title = feed.name
+//        }
+//    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject?) {
+        var newVC = segue.destinationViewController as GroupFeedTableViewController
+        if let frc = self.fetchedResultsController {
+            let feed = frc.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as GroupFeed
+            newVC.groupFeed = feed
+            newVC.title = feed.name
+        }
+    }
+
+    
 
 }

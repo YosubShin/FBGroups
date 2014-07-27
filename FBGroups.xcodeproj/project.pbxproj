@@ -14,14 +14,14 @@
 		650718E9195F2C78002B2EC0 /* FBGroupsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650718E8195F2C78002B2EC0 /* FBGroupsTests.swift */; };
 		650718F6195F2DC4002B2EC0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650718F5195F2DC4002B2EC0 /* FacebookSDK.framework */; };
 		650718FB195F657A002B2EC0 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650718FA195F657A002B2EC0 /* GroupsTableViewController.swift */; };
-		65729F3819633EF4002D9D52 /* GroupFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65729F3719633EF4002D9D52 /* GroupFeedTableViewCell.swift */; };
 		65729F3A1963408A002D9D52 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65729F391963408A002D9D52 /* UIKit.framework */; };
 		657A0DBB197070BC0081E306 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A0DBA197070BC0081E306 /* Group.swift */; };
 		6582B3F61971FA3100F59FD0 /* GroupFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6582B3F51971FA3100F59FD0 /* GroupFetcher.swift */; };
 		6582B3F919721BF200F59FD0 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6582B3F819721BF200F59FD0 /* Comment.swift */; };
+		659273881983507A00466298 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659273871983507A00466298 /* CommentCell.swift */; };
+		6592738A1983590000466298 /* GroupFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659273891983590000466298 /* GroupFeedCell.swift */; };
 		65929CFB1972353C003F7CC8 /* GroupFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65929CFA1972353C003F7CC8 /* GroupFeedTableViewController.swift */; };
 		65931A0D197220530075912E /* CommentFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65931A0C197220530075912E /* CommentFetcher.swift */; };
-		65B499521964CECD00600028 /* GroupFeedComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B499511964CECD00600028 /* GroupFeedComment.swift */; };
 		65B52AD2195FC010003E6D8B /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B52AD1195FC010003E6D8B /* GroupTableViewController.swift */; };
 		65B52AD4195FC4C4003E6D8B /* GroupFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B52AD3195FC4C4003E6D8B /* GroupFeed.swift */; };
 		65FA0C17196E3A42008E1C88 /* fbgroups.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65FA0C15196E3A42008E1C88 /* fbgroups.xcdatamodeld */; };
@@ -52,6 +52,13 @@
 			remoteGlobalIDString = 650718CF195F2C78002B2EC0;
 			remoteInfo = FBGroups;
 		};
+		657D4D6B19848A190023F0CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 650718C8195F2C78002B2EC0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 650718CF195F2C78002B2EC0;
+			remoteInfo = FBGroups;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -67,14 +74,14 @@
 		650718F5195F2DC4002B2EC0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		650718F7195F3ED6002B2EC0 /* FBGroups-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FBGroups-Bridging-Header.h"; sourceTree = "<group>"; };
 		650718FA195F657A002B2EC0 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
-		65729F3719633EF4002D9D52 /* GroupFeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeedTableViewCell.swift; sourceTree = "<group>"; };
 		65729F391963408A002D9D52 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		657A0DBA197070BC0081E306 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		6582B3F51971FA3100F59FD0 /* GroupFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFetcher.swift; sourceTree = "<group>"; };
 		6582B3F819721BF200F59FD0 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		659273871983507A00466298 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		659273891983590000466298 /* GroupFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeedCell.swift; sourceTree = "<group>"; };
 		65929CFA1972353C003F7CC8 /* GroupFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeedTableViewController.swift; sourceTree = "<group>"; };
 		65931A0C197220530075912E /* CommentFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentFetcher.swift; sourceTree = "<group>"; };
-		65B499511964CECD00600028 /* GroupFeedComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeedComment.swift; sourceTree = "<group>"; };
 		65B52AD1195FC010003E6D8B /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
 		65B52AD3195FC4C4003E6D8B /* GroupFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupFeed.swift; sourceTree = "<group>"; };
 		65FA0C16196E3A42008E1C88 /* fbgroups.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = fbgroups.xcdatamodel; sourceTree = "<group>"; };
@@ -135,8 +142,8 @@
 				65B52AD1195FC010003E6D8B /* GroupTableViewController.swift */,
 				65929CFA1972353C003F7CC8 /* GroupFeedTableViewController.swift */,
 				65FA0C1D196E4848008E1C88 /* CoreDataTableViewController.swift */,
-				65B499511964CECD00600028 /* GroupFeedComment.swift */,
-				65729F3719633EF4002D9D52 /* GroupFeedTableViewCell.swift */,
+				659273891983590000466298 /* GroupFeedCell.swift */,
+				659273871983507A00466298 /* CommentCell.swift */,
 				650718D9195F2C78002B2EC0 /* Main.storyboard */,
 				650718DC195F2C78002B2EC0 /* Images.xcassets */,
 				650718D3195F2C78002B2EC0 /* Supporting Files */,
@@ -230,6 +237,7 @@
 				650718E4195F2C78002B2EC0 /* PBXTargetDependency */,
 				651BB7211970CD8000CE1532 /* PBXTargetDependency */,
 				651BB7231970CD8000CE1532 /* PBXTargetDependency */,
+				657D4D6C19848A190023F0CA /* PBXTargetDependency */,
 			);
 			name = FBGroupsTests;
 			productName = FBGroupsTests;
@@ -336,15 +344,15 @@
 				657A0DBB197070BC0081E306 /* Group.swift in Sources */,
 				650718D6195F2C78002B2EC0 /* AppDelegate.swift in Sources */,
 				65FA0C17196E3A42008E1C88 /* fbgroups.xcdatamodeld in Sources */,
-				65729F3819633EF4002D9D52 /* GroupFeedTableViewCell.swift in Sources */,
 				65FA0C1C196E3E00008E1C88 /* GroupFeedFetcher.swift in Sources */,
 				65931A0D197220530075912E /* CommentFetcher.swift in Sources */,
 				6582B3F61971FA3100F59FD0 /* GroupFetcher.swift in Sources */,
 				6582B3F919721BF200F59FD0 /* Comment.swift in Sources */,
 				650718FB195F657A002B2EC0 /* GroupsTableViewController.swift in Sources */,
-				65B499521964CECD00600028 /* GroupFeedComment.swift in Sources */,
 				65FA0C1E196E4848008E1C88 /* CoreDataTableViewController.swift in Sources */,
+				6592738A1983590000466298 /* GroupFeedCell.swift in Sources */,
 				65B52AD4195FC4C4003E6D8B /* GroupFeed.swift in Sources */,
+				659273881983507A00466298 /* CommentCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +381,11 @@
 			isa = PBXTargetDependency;
 			target = 650718CF195F2C78002B2EC0 /* FBGroups */;
 			targetProxy = 651BB7221970CD8000CE1532 /* PBXContainerItemProxy */;
+		};
+		657D4D6C19848A190023F0CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 650718CF195F2C78002B2EC0 /* FBGroups */;
+			targetProxy = 657D4D6B19848A190023F0CA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

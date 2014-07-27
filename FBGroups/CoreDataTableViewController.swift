@@ -22,15 +22,19 @@ class CoreDataTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
     }
-
+    
+    init(coder aDecoder: NSCoder!)
+    {
+        super.init(coder: aDecoder)
+    }
+    
     init(style: UITableViewStyle) {
         super.init(style: style)
         // Custom initialization
     }
     
-    init(coder aDecoder: NSCoder!)
-    {
-        super.init(coder: aDecoder)
+    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     override func viewDidLoad() {

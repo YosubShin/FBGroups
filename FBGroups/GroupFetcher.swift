@@ -46,11 +46,13 @@ extension Group {
             NSLog("result = \(result)")
             NSLog("error = \(error)")
             
-            var jsonGroups = result as FBGraphObject
-            Group.loadGroups(jsonGroups["data"] as NSMutableArray, context: context)
-            context.save(nil)
-            
-            callback()
+            if !error {
+                var jsonGroups = result as FBGraphObject
+                Group.loadGroups(jsonGroups["data"] as NSMutableArray, context: context)
+                context.save(nil)
+                
+                callback()
+            }
             } as FBRequestHandler)
     }
 }

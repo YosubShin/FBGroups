@@ -3,8 +3,6 @@
 
 target "FBGroups" do
 
-pod 'PureLayout'
-
 end
 
 target "FBGroupsTests" do

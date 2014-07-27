@@ -60,12 +60,10 @@ class GroupsTableViewController: CoreDataTableViewController {
 
     // #pragma mark - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject?) {
         var destViewController = segue.destinationViewController as GroupTableViewController
         if let frc = self.fetchedResultsController {
             let group = frc.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as Group
-            destViewController.context = self.context
             destViewController.group = group
         }
     }

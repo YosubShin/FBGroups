@@ -20,6 +20,7 @@ extension Comment {
         var matches = context.executeFetchRequest(request, error: &error)
         
         if !matches || error || matches.count > 1 {
+            
             //TODO handle error
         } else if matches.count > 0 {
             comment = matches[0] as Comment
@@ -36,14 +37,14 @@ extension Comment {
 //                comment.likeCount = likeCount
 //            }
         }
-        NSLog("Parsed the Comment object \(comment)")
+//        NSLog("Parsed the Comment object \(comment)")
         return comment
     }
     
     class func loadComments(groupFeed: GroupFeed, data: NSMutableArray, context: NSManagedObjectContext!) -> Array<Comment> {
         var result : Array<Comment> = []
         for rawComment : AnyObject in data {
-            NSLog("Parsing raw comment \(rawComment)")
+//            NSLog("Parsing raw comment \(rawComment)")
             if rawComment is FBGraphObject {
                 if let jsonComment = rawComment as? FBGraphObject {
                     result.append(Comment.comment(groupFeed, jsonComment: jsonComment, context: context))

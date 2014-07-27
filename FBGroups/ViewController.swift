@@ -9,7 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController, FBLoginViewDelegate {
-                            
     @IBOutlet var fbLoginView: FBLoginView!
     @IBOutlet var loginLabel: UILabel!
     
