@@ -34,7 +34,6 @@ extension Group {
     
     class func loadGroups(data: NSMutableArray, context: NSManagedObjectContext!) {
         for rawGroup : AnyObject in data {
-            NSLog("Parsing raw group \(rawGroup)")
             if let jsonGroup = rawGroup as? FBGraphObject {
                 Group.loadGroupWithId(jsonGroup["id"] as String, andName: jsonGroup["name"] as String, inContext: context)
             }
@@ -43,7 +42,6 @@ extension Group {
     
     class func fetchGroupsWithCallback(context: NSManagedObjectContext, callback: () -> Void) {
         FBRequestConnection.startWithGraphPath("/me/groups", completionHandler: {(connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
-            NSLog("result = \(result)")
             NSLog("error = \(error)")
             
             if !error {

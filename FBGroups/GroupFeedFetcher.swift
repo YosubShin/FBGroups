@@ -41,7 +41,6 @@ extension GroupFeed {
                 Comment.loadComments(feed, data: rawComments["data"] as NSMutableArray, context: context)
             }
         }
-//        NSLog("Parsed the GroupFeed object \(feed)")
         return feed
     }
     

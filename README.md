@@ -15,6 +15,10 @@ One needs to add values for keys : `CFBundleURLTypes`, `FacebookDisplayName`, `F
 * FBGroups utilizes , and [Facebook SDK](https://developers.facebook.com/docs/ios) libraries.
 In order to build with CocoaPod, type in the Terminal `pod install`, and in order to open the project, open `FBGroups.xcworkspace` instead of `FBGroups.xcodeproj`. More information on using CocoaPod at http://cocoapods.org/.
 
+Reference
+--------
+* Check out http://stackoverflow.com/questions/18746929/using-auto-layout-in-uitableview-for-dynamic-cell-layouts-variable-row-heights to learn about dynamic height `UITableViewCell`.
+
 
 Updates
 ------
