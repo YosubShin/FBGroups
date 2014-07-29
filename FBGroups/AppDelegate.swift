@@ -17,6 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Find out if user is logged in with Facebook
+        if FBSession.activeSession().state == .CreatedTokenLoaded {
+            NSLog("Already logged in")
+            FBSession.openActiveSessionWithReadPermissions(FACEBOOK_PERMISSIONS, allowLoginUI: false, completionHandler: {(session: FBSession!, state: FBSessionState!, error: NSError!) -> Void in
+                    NSLog("Login is done. Should show Groups list.")
+                } as FBSessionStateHandler)
+        } else {
+            NSLog("Need to do the login. Show login view controller")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            self.window!.rootViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
+        }
+
+        
         return true
     }
 

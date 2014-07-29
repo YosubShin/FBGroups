@@ -1,1 +1,18 @@
+PODS:
+  - Bolts (1.1.0)
+  - Facebook-iOS-SDK (3.16.0):
+    - Bolts
+
+DEPENDENCIES:
+  - Facebook-iOS-SDK (from `https://github.com/pgaspar/facebook-ios-sdk.git`, branch `beta4`)
+
+EXTERNAL SOURCES:
+  Facebook-iOS-SDK:
+    :branch: beta4
+    :git: https://github.com/pgaspar/facebook-ios-sdk.git
+
+SPEC CHECKSUMS:
+  Bolts: 91c2af8eae1d44e1dd75946a5b0ae04a43ea43e4
+  Facebook-iOS-SDK: 56046bfc288be00c593e884bd2dc7639627f65f2
+
 COCOAPODS: 0.33.1

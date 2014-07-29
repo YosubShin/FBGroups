@@ -3,6 +3,8 @@
 
 target "FBGroups" do
 
+pod 'Facebook-iOS-SDK', :git => 'https://github.com/pgaspar/facebook-ios-sdk.git', :branch => 'beta4'
+
 end
 
 target "FBGroupsTests" do

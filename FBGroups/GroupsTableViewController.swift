@@ -61,11 +61,19 @@ class GroupsTableViewController: CoreDataTableViewController {
     // #pragma mark - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject?) {
-        var destViewController = segue.destinationViewController as GroupTableViewController
-        if let frc = self.fetchedResultsController {
-            let group = frc.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as Group
-            destViewController.group = group
+        if segue.destinationViewController is GroupFeedTableViewController {
+            var destViewController = segue.destinationViewController as GroupTableViewController
+            if let frc = self.fetchedResultsController {
+                let group = frc.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as Group
+                destViewController.group = group
+            }
+        } else {
+            NSLog("Settings modal")
         }
+    }
+    
+    @IBAction func unwindFromSettings(segue: UIStoryboardSegue!) {
+        NSLog("Unwind from settings view")
     }
     
     // #pragma mark - FetchedResultsController
