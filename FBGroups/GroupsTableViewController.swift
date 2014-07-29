@@ -61,7 +61,7 @@ class GroupsTableViewController: CoreDataTableViewController {
     // #pragma mark - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject?) {
-        if segue.destinationViewController is GroupFeedTableViewController {
+        if segue.destinationViewController is GroupTableViewController {
             var destViewController = segue.destinationViewController as GroupTableViewController
             if let frc = self.fetchedResultsController {
                 let group = frc.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as Group
